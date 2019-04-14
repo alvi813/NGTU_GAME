@@ -1,1 +1,1 @@
-# NGTU_GAME
+In this game the player walks and collects the keys. He needs to collect all the keys to open all the doors and eventually get to the prize. Monsters walk around and prevent the player to reach the keys. If the player touches the monster, he will get to the beginning of the playing field.
