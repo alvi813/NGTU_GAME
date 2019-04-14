@@ -1,0 +1,46 @@
+﻿Please open the console window completely,
+
+
+to display the playing field correctly.
+
+
+
+In this game you need to walk on the playing field,
+
+collecting keys of different colors and opening the corresponding doors.
+
+To win you need to reach the lower right corner and 
+
+get the prize (R).
+
+
+
+To move use the arrow keys or (W-A-S-D).
+
+When he reached the cell J, you can jump (key J).
+
+When they reached the cells JJ, you will be able to jump twice higher
+
+(press N).
+
+When you reach the < > icon, you can move horizontally 
+
+several cells at once. 
+
+To move to the left, use Z. 
+
+To move to the right, use C.
+
+
+
+To exit the game - key Q.
+
+
+
+In the process of movement on the field avoid monsters!!!
+
+Faced with a monster, you will get to the beginning of the playing field!
+
+
+
+Good luck!!!
