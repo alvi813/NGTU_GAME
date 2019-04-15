@@ -110,11 +110,11 @@ public:
 
     GameBoard(uint maxX, uint maxY);
     GameBoard(const GameBoard& copyBoard);
+
     mutex mtx;
     mutex mtx2;
-
     //-------------------------------------------
-
+    //-------------------------------------------
     uint getMaxX();
     uint getMaxY();
     uint getMinX();
@@ -204,7 +204,6 @@ public:
     void informationMessages();
     void isPlayerGetPriceKey(uint X, uint Y);
     bool getPriceKey();
-
 
     //-------------------------------------------------------
     //------------------------------------------

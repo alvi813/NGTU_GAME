@@ -159,7 +159,8 @@ void GameBoard::goToXY(uint x, uint y)
 
 void GameBoard::printGameObject(uint X, uint Y, int textColor, int backgroundColor)
 {
-    mtx2.lock();
+    lock_guard<mutex> guard (mtx2);
+    //mtx2.lock();
     //***
     CONSOLE_SCREEN_BUFFER_INFO start_attribute;
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -172,8 +173,10 @@ void GameBoard::printGameObject(uint X, uint Y, int textColor, int backgroundCol
 
     SetConsoleTextAttribute(hConsole, start_attribute.wAttributes); // возвращаем исходный цвет консоли / return the original color of the console
     //***
-    mtx2.unlock();
+    //mtx2.unlock();
 }
+
+//----------------------------------------------------------------------------
 
 void GameBoard::setPlayerStepInArray(uint X, uint Y) // отрисовка шага игрока в массиве
 {
@@ -691,7 +694,7 @@ void GameBoard::jumpPlayer(uint * playerX, uint * playerY, uint beginPosPlayerX,
         }
     }
 
-    timeDelay(130);
+    timeDelay(90);
 
     isEnterAnything = _kbhit();
 
@@ -878,7 +881,7 @@ void GameBoard::FastMovePlayerLeft(uint * playerX, uint * playerY, uint beginPos
 {
     fastMoveProcess = true;
 
-    for(int i = 0; i < 4 || step_player_answer != step_mistake; i++)
+    for(int i = 0; i < 4 && step_player_answer != step_mistake; i++)
     {
         if(isLadder(*playerX - 1, *playerY))
         {
@@ -914,7 +917,7 @@ void GameBoard::FastMovePlayerRight(uint * playerX, uint * playerY, uint beginPo
 {
     fastMoveProcess = true;
 
-    for(int i = 0; i < 4 || step_player_answer != step_mistake; i++)
+    for(int i = 0; i < 4 && step_player_answer != step_mistake; i++)
     {
         if(isLadder(*playerX + 1, *playerY))
         {
@@ -952,10 +955,19 @@ void GameBoard::playerFallDown(uint * playerX, uint * playerY, uint beginPosPlay
           step_player_answer != step_danger &&
           !isLadder(*playerX, *playerY + 1))
     {
-        erasePlayerStep(*playerX, *playerY);
-        movePlayerBackward(playerX, playerY, beginPosPlayerX, beginPosPlayerY);
-        setPlayerStep(*playerX, *playerY);
-        timeDelay(70);
+        if (checkIsDanger(*playerX, *playerY - 1))
+        {
+            *playerX = beginPosPlayerX;
+            *playerY = beginPosPlayerY;
+            step_player_answer = step_danger;
+        }
+        else
+        {
+            erasePlayerStep(*playerX, *playerY);
+            movePlayerBackward(playerX, playerY, beginPosPlayerX, beginPosPlayerY);
+            setPlayerStep(*playerX, *playerY);
+            timeDelay(70);
+        }
     }
     step_player_answer = step_fallDown;
 }
