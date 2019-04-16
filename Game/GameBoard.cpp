@@ -464,39 +464,46 @@ void GameBoard::collectKeys(uint X, uint Y)
 {
     if(board[Y][X] == jump_key)
     {    isJumpKey = true;
-        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + 1); // 3 Y-axis; 30 X-axis
+        numberOfHelpMessages++;
+        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + numberOfHelpMessages); // 3 Y-axis; 30 X-axis
         printf("%s", "J - jump;");
     }
     else if(board[Y][X] == doubleJump_key)
     {
         isDoubleJumpKey = true;
-        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + 2);
+        numberOfHelpMessages++;
+        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + numberOfHelpMessages);
         printf("%s", "N - double jump;");
     }
     else if(board[Y][X] == fastMove_key)
     {
         isFastMove = true;
-        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + 3);
+        numberOfHelpMessages++;
+        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + numberOfHelpMessages);
         printf("%s", "Z - fast move left;");
-        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + 4);
+        numberOfHelpMessages++;
+        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + numberOfHelpMessages);
         printf("%s", "C - fast move right.");
     }
     else if(board[Y][X] == red_key)
     {
         isRedKey = true;
-        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + 6);
+        numberOfHelpMessages++;
+        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + numberOfHelpMessages);
         printf("%s", "Now you can open the red door.         ");
     }
     else if(board[Y][X] == green_key)
     {
         isGreenKey = true;
-        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + 7);
+        numberOfHelpMessages++;
+        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + numberOfHelpMessages);
         printf("%s", "Now you can open the green door.       ");
     }
     else if(board[Y][X] == blue_key)
     {
         isBlueKey = true;
-        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + 8);
+        numberOfHelpMessages++;
+        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + numberOfHelpMessages);
         printf("%s", "Now you can open the blue door.        ");
     }
     else if(board[Y][X] == price_key)
@@ -509,17 +516,20 @@ void GameBoard::openDoors(uint X, uint Y)
 {
     if(board[Y][X] == red_door)
     {
-        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + 6);
+        numberOfHelpMessages++;
+        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + numberOfHelpMessages);
         printf("%s", "You open the red door!!!                ");
     }
     if(board[Y][X] == green_door)
     {
-        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + 7);
+        numberOfHelpMessages++;
+        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + numberOfHelpMessages);
         printf("%s", "You open the green door!!!              ");
     }
     if(board[Y][X] == blue_door)
     {
-        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + 8);
+        numberOfHelpMessages++;
+        goToXY(beginTextMessagesXAxis, beginTextMessagesYAxis + numberOfHelpMessages);
         printf("%s", "You open the blue door!!!               ");
     }
 }
@@ -955,10 +965,12 @@ void GameBoard::playerFallDown(uint * playerX, uint * playerY, uint beginPosPlay
           step_player_answer != step_danger &&
           !isLadder(*playerX, *playerY + 1))
     {
-        if (checkIsDanger(*playerX, *playerY - 1))
+        if (checkIsDanger(*playerX, *playerY + 1))
         {
+            erasePlayerStep(*playerX, *playerY);
             *playerX = beginPosPlayerX;
             *playerY = beginPosPlayerY;
+            setPlayerStep(*playerX, *playerY);
             step_player_answer = step_danger;
         }
         else

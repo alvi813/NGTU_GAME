@@ -105,6 +105,7 @@ private:
     };
 
     int step_player_answer = by_default;
+    uint numberOfHelpMessages = 0;
 
 public:
 
