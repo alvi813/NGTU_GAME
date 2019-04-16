@@ -23,6 +23,6 @@ x x                    -    xx       x
 x xx         xx        -             x
 xgR         x  x  Q xx -    QQQ      x
 xxxxx    M xx  xx  x~~x-             x
-x   xxxxxx        x~~~~x          xxxx
-x        x   QQ  x~~~~~x  M       B Px
+x~~~xxxxxx        x~~~~x          xxxx
+x~~~~~~~~x   QQ  x~~~~~x  M       B Px
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
