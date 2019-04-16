@@ -205,6 +205,7 @@ public:
     void informationMessages();
     void isPlayerGetPriceKey(uint X, uint Y);
     bool getPriceKey();
+    bool getIsPlayerOnLadder();
 
     //-------------------------------------------------------
     //------------------------------------------

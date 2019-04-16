@@ -10,7 +10,6 @@
 #include <conio.h>
 
 
-
 GameBoard::GameBoard(uint maxX, uint maxY)
     :maxX(maxX),
       maxY(maxY)
@@ -79,7 +78,7 @@ char ** GameBoard::getBoard()
 void GameBoard::readBoardFromFile()
 {
     int rowNum = 0;
-    const int strInLen = 40;  // maxX + 2 = 38+2 = 38 --->( /n + /0 );
+    const int strInLen = 40;  // maxX + 2 = 38+2 = 40 --->( /n + /0 );
     char strIn[strInLen] = {'\0'};
     FILE *fpIn = fopen("D:\\C++_NGTU\\Game\\Game\\textFiles\\gameBoard.txt", "r");
     if (fpIn == nullptr)
@@ -460,6 +459,13 @@ bool GameBoard::isLadder(uint X, uint Y)
 
 //---------------------------------------------------------------
 
+bool GameBoard::getIsPlayerOnLadder()
+{
+    return isPlayerOnLadder;
+}
+
+//----------------------------------------------------------------
+
 void GameBoard::collectKeys(uint X, uint Y)
 {
     if(board[Y][X] == jump_key)
@@ -769,16 +775,30 @@ void GameBoard::jumpPlayer(uint * playerX, uint * playerY, uint beginPosPlayerX,
                 setPlayerStep(*playerX, *playerY);
             }
         }
+
+        else if((symb == 'J') ||
+                (symb == 'j') ||
+                (symb == (char)142) || //Î
+                (symb == (char)174)) //î
+        {
+            if(isDoubleJumpKey)
+            {
+                erasePlayerStep(*playerX, *playerY);
+                doubleJumpPlayer(playerX, playerY, beginPosPlayerX, beginPosPlayerY);
+                setPlayerStep(*playerX, *playerY);
+            }
+        }
+
+
+        if(step_player_answer == step_mistake)
+        {
+            step_player_answer = by_default;
+            playerFallDown(playerX, playerY, beginPosPlayerX, beginPosPlayerY);
+        }
+
+
+        if(!isPlayerOnLadder) playerFallDown(playerX, playerY, beginPosPlayerX, beginPosPlayerY);
     }
-
-    if(step_player_answer == step_mistake)
-    {
-        step_player_answer = by_default;
-        playerFallDown(playerX, playerY, beginPosPlayerX, beginPosPlayerY);
-    }
-
-
-    if(!isPlayerOnLadder) playerFallDown(playerX, playerY, beginPosPlayerX, beginPosPlayerY);
 }
 //-------------------------------------------------------------
 
@@ -873,6 +893,7 @@ void GameBoard::doubleJumpPlayer(uint * playerX, uint * playerY, uint beginPosPl
                 setPlayerStep(*playerX, *playerY);
             }
         }
+
     }
 
     if(step_player_answer == step_mistake)
@@ -1210,25 +1231,25 @@ void GameBoard::stepPlayerAnswer()
 void GameBoard::setMMonsterPosition(uint *monsterX, uint *monsterY, bool * isMoveLeft)
 {
     /*srand((uint)(time(nullptr)));
-    int var = rand() % 2;
-    switch (var)
-    {
-    case 0:
-        //while(true)
-       // {
-            moveMmonsterLeft(monsterX, monsterY);
-           // moveMmonsterRight(monsterX, monsterY, playerX, playerY, beginPosPlayerX, beginPosPlayerY);
-        //}
-        break;
+             int var = rand() % 2;
+             switch (var)
+             {
+             case 0:
+                 //while(true)
+                // {
+                     moveMmonsterLeft(monsterX, monsterY);
+                    // moveMmonsterRight(monsterX, monsterY, playerX, playerY, beginPosPlayerX, beginPosPlayerY);
+                 //}
+                 break;
 
-    case 1:
-       // while(true)
-       // {
-            moveMmonsterRight(monsterX, monsterY);
-           // moveMmonsterLeft(monsterX, monsterY, playerX, playerY, beginPosPlayerX, beginPosPlayerY);
-      //  }
-        break;
-    }*/
+             case 1:
+                // while(true)
+                // {
+                     moveMmonsterRight(monsterX, monsterY);
+                    // moveMmonsterLeft(monsterX, monsterY, playerX, playerY, beginPosPlayerX, beginPosPlayerY);
+               //  }
+                 break;
+             }*/
 
     if(*isMoveLeft)
     {
@@ -1263,27 +1284,27 @@ void GameBoard::setMMonsterPosition(uint *monsterX, uint *monsterY, bool * isMov
 void GameBoard::setQMonsterPosition(uint * monsterX, uint * monsterY, bool * isMoveUp)
 {
     /*
-     * srand((uint)(time(nullptr)));
-    int var = rand() % 2;
-    switch (var)
-    {
-    case 0:
-        //while(true)
-    {
-        moveQmonsterForward(monsterX, monsterY);
-        //moveQmonsterBackward(monsterX, monsterY);
-    }
-        break;
+              * srand((uint)(time(nullptr)));
+             int var = rand() % 2;
+             switch (var)
+             {
+             case 0:
+                 //while(true)
+             {
+                 moveQmonsterForward(monsterX, monsterY);
+                 //moveQmonsterBackward(monsterX, monsterY);
+             }
+                 break;
 
-    case 1:
-        // while(true)
-    {
-        moveQmonsterBackward(monsterX, monsterY);
-        //moveQmonsterForward(monsterX, monsterY);
-    }
-        break;
-    }
-    */
+             case 1:
+                 // while(true)
+             {
+                 moveQmonsterBackward(monsterX, monsterY);
+                 //moveQmonsterForward(monsterX, monsterY);
+             }
+                 break;
+             }
+             */
 
     if(*isMoveUp)
     {
@@ -1316,7 +1337,7 @@ void GameBoard::setQMonsterPosition(uint * monsterX, uint * monsterY, bool * isM
 void GameBoard::moveMmonsterLeft(uint * monsterX, uint * monsterY)
 {
     /*if (board[*monsterY][*monsterX - 1] != brick_symbol &&
-           isBrick(*monsterX - 1, *monsterY + 1))*/
+                    isBrick(*monsterX - 1, *monsterY + 1))*/
     {
         eraseMonsterStep(*monsterX, *monsterY);
         (*monsterX)--;
@@ -1330,7 +1351,7 @@ void GameBoard::moveMmonsterLeft(uint * monsterX, uint * monsterY)
 void GameBoard::moveMmonsterRight(uint * monsterX, uint * monsterY)
 {
     /*if (board[*monsterY][*monsterX + 1] != brick_symbol &&
-           isBrick(*monsterX + 1, *monsterY + 1))*/
+                    isBrick(*monsterX + 1, *monsterY + 1))*/
     {
         eraseMonsterStep(*monsterX, *monsterY);
         (*monsterX)++;

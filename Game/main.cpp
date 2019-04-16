@@ -65,7 +65,7 @@ int main() {
 
     //thread *MMonster_thread = new thread[MMonsters.size()];
     //uint *MMonsterPosX = new uint [MMonsters.size()];
-    //uint *MMonsterPosY = new uint[MMonsters.size()];
+    //uint *MMonsterPosY = new uint [MMonsters.size()];
     thread MMonsters_thread([&]()
     {
         uint MMonsterPosX;
@@ -79,7 +79,8 @@ int main() {
                 MMonsterPosY = MMonsters[i]->getPosY();
                 if(MMonsters[i]->isMoveLeft &&
                         MMonsterPosX-1 == player.getPosX() &&
-                        MMonsterPosY == player.getPosY())
+                        MMonsterPosY == player.getPosY() &&
+                        !gameBoard.getIsPlayerOnLadder())
                 {
                     gameBoard.setMMonsterPosition(&MMonsterPosX, &MMonsterPosY, &MMonsters[i]->isMoveLeft);
                     playerPosX = player.getBeginPosX();
@@ -94,7 +95,8 @@ int main() {
                 }
                 else if(!(MMonsters[i]->isMoveLeft) &&
                         MMonsterPosX+1 == player.getPosX() &&
-                        MMonsterPosY == player.getPosY())
+                        MMonsterPosY == player.getPosY() &&
+                        !gameBoard.getIsPlayerOnLadder())
                 {
                     gameBoard.setMMonsterPosition(&MMonsterPosX, &MMonsterPosY, &MMonsters[i]->isMoveLeft);
                     playerPosX = player.getBeginPosX();
@@ -114,7 +116,7 @@ int main() {
                 MMonsters[i]->setPosY(MMonsterPosY);
 
             }
-            timeDelay(1500);
+            timeDelay(800);
         }
     });
 
@@ -138,7 +140,8 @@ int main() {
 
                 if(QMonsters[i]->isMoveUp &&
                         QMonsterPosX == player.getPosX() &&
-                        QMonsterPosY-1 == player.getPosY())
+                        QMonsterPosY-1 == player.getPosY() &&
+                        !gameBoard.getIsPlayerOnLadder())
                 {
                     gameBoard.setQMonsterPosition(&QMonsterPosX, &QMonsterPosY, &QMonsters[i]->isMoveUp);
                     playerPosX = player.getBeginPosX();
@@ -152,7 +155,8 @@ int main() {
                 }
                 else if(!(QMonsters[i]->isMoveUp) &&
                         QMonsterPosX == player.getPosX() &&
-                        QMonsterPosY+1 == player.getPosY())
+                        QMonsterPosY+1 == player.getPosY() &&
+                        !gameBoard.getIsPlayerOnLadder())
                 {
                     gameBoard.setQMonsterPosition(&QMonsterPosX, &QMonsterPosY, &QMonsters[i]->isMoveUp);
                     playerPosX = player.getBeginPosX();
@@ -172,7 +176,7 @@ int main() {
                 QMonsters[i]->setPosX(QMonsterPosX);
                 QMonsters[i]->setPosY(QMonsterPosY);
             }
-            timeDelay(1000);
+            timeDelay(600);
         }
     });
 
